@@ -6,9 +6,9 @@ const path = require('path')
 
 function openPath(openPath, column) {
 	openPath = vscode.Uri.file(openPath)
-	vscode.workspace.openTextDocument(openPath)
+	return vscode.workspace.openTextDocument(openPath)
 	.then(doc => {
-		vscode.window.showTextDocument(doc, column)
+		return vscode.window.showTextDocument(doc, column)
 	})
 }
 
@@ -28,19 +28,14 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('student-project-opener.open', function (event) {
-		// The code you place here will be executed every time your command is executed
 		folderPath = event.fsPath
-		console.log('PROUT')
 		folderContent = fs.readdirSync(folderPath)
-		console.log(folderContent)
 		reportPath = path.join(folderPath, 'report.json')
 		if(!fs.existsSync(reportPath)) return
 		workspacePath = path.join(folderPath, 'workspace')
 		if(!fs.existsSync(workspacePath)) return
-		console.log(workspacePath)
 		workspaceContent = fs.readdirSync(workspacePath)
 		workspaceContent = workspaceContent.filter(name => name.endsWith('.py'))
-		console.log(workspaceContent)
 		let pyToOpen
 		if(workspaceContent.length === 1) {
 			pyToOpen = Promise.resolve(workspaceContent[0])
@@ -51,16 +46,16 @@ function activate(context) {
 		pyToOpen.then(value => {
 			const pyPath = path.join(workspacePath, value)
 			vscode.commands.executeCommand('workbench.action.closeAllEditors')
-			//workbench.action.splitEditor
-			//workbench.action.focusFirstEditorGroup
-			//workbench.action.focusSecondEditorGroup
-			openPath(pyPath, 1)
-			//vscode.commands.executeCommand('workbench.action.splitEditor')
-			openPath(reportPath, 2)
+			.then(() => {
+				vscode.commands.executeCommand('workbench.action.splitEditor')
+				.then(() => {
+					openPath(pyPath, 1)
+					.then(() => {
+						openPath(reportPath, 2)
+					})
+				})
+			})
 		})
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage(`Open ${folderPath}`)
 	})
 
 	context.subscriptions.push(disposable)

@@ -3,7 +3,7 @@
 	"name": "student-project-opener",
 	"displayName": "student-project-opener",
 	"description": "open student project",
-	"version": "0.0.1",
+	"version": "0.0.4",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
