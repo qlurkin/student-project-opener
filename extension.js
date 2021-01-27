@@ -31,9 +31,15 @@ function activate(context) {
 		folderPath = event.fsPath
 		folderContent = fs.readdirSync(folderPath)
 		reportPath = path.join(folderPath, 'report.json')
-		if(!fs.existsSync(reportPath)) return
+		if(!fs.existsSync(reportPath)) {
+			vscode.window.showErrorMessage('No report.json in folder')
+			return
+		}
 		workspacePath = path.join(folderPath, 'workspace')
-		if(!fs.existsSync(workspacePath)) return
+		if(!fs.existsSync(workspacePath)) {
+			vscode.window.showErrorMessage('No workspace folder in folder')
+			return
+		}
 		workspaceContent = fs.readdirSync(workspacePath)
 		workspaceContent = workspaceContent.filter(name => name.endsWith('.py'))
 		let pyToOpen
