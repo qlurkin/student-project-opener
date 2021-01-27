@@ -1,0 +1,52 @@
+{
+	"publisher": "lur",
+	"name": "student-project-opener",
+	"displayName": "student-project-opener",
+	"description": "open student project",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.52.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:student-project-opener.open"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "explorerResourceIsFolder",
+					"command": "student-project-opener.open",
+					"group": "navigation"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "student-project-opener.open",
+				"title": "Open Student Project"
+			}
+		]
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js",
+		"build": "vsce package"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.52.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.15.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.1.3",
+		"typescript": "^4.1.2",
+		"vscode-test": "^1.4.1",
+		"vsce": "^1.84.0"
+	}
+}
