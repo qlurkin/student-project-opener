@@ -3,7 +3,8 @@
 	"name": "student-project-opener",
 	"displayName": "student-project-opener",
 	"description": "open student project",
-	"version": "0.0.4",
+	"repository": "git@github.com:qlurkin/student-project-opener.git",
+	"version": "0.0.5",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
